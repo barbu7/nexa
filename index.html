@@ -5,38 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexa Clipboard</title>
     <style>
-        /* ... Tuoi stili CSS per sfondo e box ... */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #1e3c72, #2a5298);
+            color: white;
+            text-align: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .input-box {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            resize: none;
+            color: #333;
+            background-color: #fff;
+        }
+        .copy-button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #1e3c72;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .copy-button:hover {
+            background-color: #2a5298;
+        }
     </style>
 </head>
 <body>
-    <h1>Nexa Clipboard</h1>
-    <div>
-        <h2>EU SKU List</h2>
-        <textarea id="euBox" rows="10" cols="50"></textarea>
-        <button onclick="copyText('euBox')">Copy EU List</button>
-    </div>
-    <div>
-        <h2>US SKU List</h2>
-        <textarea id="usBox" rows="10" cols="50"></textarea>
-        <button onclick="copyText('usBox')">Copy US List</button>
+    <div class="container">
+        <h1>Nexa Clipboard</h1>
+        <textarea id="eu-list" class="input-box" readonly>EU SKU List here...</textarea>
+        <textarea id="us-list" class="input-box" readonly>US SKU List here...</textarea>
+        <button class="copy-button" onclick="copyToClipboard()">Copy EU & US Lists</button>
     </div>
 
     <script>
-        function copyText(elementId) {
-            const textArea = document.getElementById(elementId);
-            textArea.select();
-            document.execCommand("copy");
+        // Funzione per popolare i box con i parametri URL
+        function populateLists() {
+            const params = new URLSearchParams(window.location.search);
+            const euList = decodeURIComponent(params.get("eu")) || "EU SKU List here...";
+            const usList = decodeURIComponent(params.get("us")) || "US SKU List here...";
+
+            document.getElementById("eu-list").value = euList;
+            document.getElementById("us-list").value = usList;
         }
 
-        // Funzione per ottenere i parametri URL
-        function getUrlParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param) || "";
+        // Funzione per copiare le liste negli appunti
+        function copyToClipboard() {
+            const euList = document.getElementById("eu-list").value;
+            const usList = document.getElementById("us-list").value;
+            const combinedText = `EU List:\n${euList}\n\nUS List:\n${usList}`;
+            
+            navigator.clipboard.writeText(combinedText).then(() => {
+                alert("Lists copied to clipboard!");
+            }).catch(err => {
+                alert("Failed to copy lists to clipboard.");
+            });
         }
 
-        // Popola i box con i dati dall'URL
-        document.getElementById("euBox").value = decodeURIComponent(getUrlParam("eu"));
-        document.getElementById("usBox").value = decodeURIComponent(getUrlParam("us"));
+        // Carica le liste al caricamento della pagina
+        window.onload = populateLists;
     </script>
 </body>
 </html>

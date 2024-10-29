@@ -5,91 +5,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexa Clipboard</title>
     <style>
+        /* Imposta il background con una sfumatura blu */
         body {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            background: linear-gradient(to bottom, #3a6073, #16222a);
             font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom, #1e3c72, #2a5298);
             color: white;
-            text-align: center;
         }
+        /* Stile del contenitore principale */
         .container {
-            width: 90%;
-            max-width: 600px;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
+            text-align: center;
+            background-color: #0a0e14;
+            padding: 30px;
             border-radius: 8px;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
         }
+        /* Titolo */
         h1 {
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-        .input-box {
-            width: 100%;
-            height: 150px;
-            padding: 10px;
-            margin-bottom: 15px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            resize: none;
-            color: #333;
-            background-color: #fff;
-        }
-        .copy-button {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
+            margin-top: 0;
+            font-size: 2em;
             font-weight: bold;
-            color: #fff;
-            background-color: #1e3c72;
+            color: white;
+        }
+        /* Area di testo */
+        .box {
+            margin: 15px 0;
+        }
+        textarea {
+            width: 300px;
+            height: 100px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            resize: none;
+            font-size: 1em;
+            background-color: white;
+            color: black;
+            text-align: left;
+        }
+        /* Bottone Copy */
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: white;
+            background-color: #4CAF50;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-        .copy-button:hover {
-            background-color: #2a5298;
+        /* Cambia colore del bottone al passaggio del mouse */
+        button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Nexa Clipboard</h1>
-        <textarea id="eu-list" class="input-box" readonly>EU SKU List here...</textarea>
-        <textarea id="us-list" class="input-box" readonly>US SKU List here...</textarea>
-        <button class="copy-button" onclick="copyToClipboard()">Copy EU & US Lists</button>
+        
+        <div class="box">
+            <h2>EU List</h2>
+            <textarea id="euList" readonly>EU SKU List here...</textarea>
+            <br>
+            <button onclick="copyText('euList')">Copy EU List</button>
+        </div>
+
+        <div class="box">
+            <h2>US List</h2>
+            <textarea id="usList" readonly>US SKU List here...</textarea>
+            <br>
+            <button onclick="copyText('usList')">Copy US List</button>
+        </div>
     </div>
 
     <script>
-        // Funzione per popolare i box con i parametri URL
-        function populateLists() {
-            const params = new URLSearchParams(window.location.search);
-            const euList = decodeURIComponent(params.get("eu")) || "EU SKU List here...";
-            const usList = decodeURIComponent(params.get("us")) || "US SKU List here...";
-
-            document.getElementById("eu-list").value = euList;
-            document.getElementById("us-list").value = usList;
+        function copyText(elementId) {
+            const textArea = document.getElementById(elementId);
+            textArea.select();
+            document.execCommand("copy");
         }
 
-        // Funzione per copiare le liste negli appunti
-        function copyToClipboard() {
-            const euList = document.getElementById("eu-list").value;
-            const usList = document.getElementById("us-list").value;
-            const combinedText = `EU List:\n${euList}\n\nUS List:\n${usList}`;
-            
-            navigator.clipboard.writeText(combinedText).then(() => {
-                alert("Lists copied to clipboard!");
-            }).catch(err => {
-                alert("Failed to copy lists to clipboard.");
-            });
+        // Funzione per ottenere i parametri URL
+        function getUrlParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param) || "";
         }
 
-        // Carica le liste al caricamento della pagina
-        window.onload = populateLists;
+        // Popola i box con i dati dall'URL
+        document.getElementById("euBox").value = decodeURIComponent(getUrlParam("eu"));
+        document.getElementById("usBox").value = decodeURIComponent(getUrlParam("us"));
     </script>
 </body>
 </html>

@@ -88,6 +88,7 @@
             const textArea = document.getElementById(elementId);
             textArea.select();
             document.execCommand("copy");
+            alert("Copied to clipboard!");
         }
 
         // Funzione per ottenere i parametri URL
@@ -97,8 +98,8 @@
         }
 
         // Popola i box con i dati dall'URL
-        document.getElementById("euBox").value = decodeURIComponent(getUrlParam("eu"));
-        document.getElementById("usBox").value = decodeURIComponent(getUrlParam("us"));
+        document.getElementById("euList").value = decodeURIComponent(getUrlParam("eu"));
+        document.getElementById("usList").value = decodeURIComponent(getUrlParam("us"));
     </script>
 </body>
 </html>

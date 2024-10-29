@@ -32,6 +32,9 @@
             color: white;
         }
         /* Area di testo */
+        .box {
+            margin: 15px 0;
+        }
         textarea {
             width: 300px;
             height: 100px;
@@ -46,7 +49,7 @@
         }
         /* Bottone Copy */
         button {
-            margin-top: 15px;
+            margin-top: 10px;
             padding: 10px 20px;
             font-size: 1em;
             color: white;
@@ -64,18 +67,29 @@
 <body>
     <div class="container">
         <h1>Nexa Clipboard</h1>
-        <textarea id="skuList" readonly>61889736;61889739;61889740;61889741;61889742</textarea>
-        <br>
-        <button onclick="copyText()">Copy</button>
+        
+        <div class="box">
+            <h2>EU List</h2>
+            <textarea id="euList" readonly>EU SKU List here...</textarea>
+            <br>
+            <button onclick="copyText('euList')">Copy EU List</button>
+        </div>
+
+        <div class="box">
+            <h2>US List</h2>
+            <textarea id="usList" readonly>US SKU List here...</textarea>
+            <br>
+            <button onclick="copyText('usList')">Copy US List</button>
+        </div>
     </div>
 
     <script>
-        function copyText() {
-            const textarea = document.getElementById("skuList");
+        function copyText(id) {
+            const textarea = document.getElementById(id);
             textarea.select();
             textarea.setSelectionRange(0, 99999); // Per i dispositivi mobili
             document.execCommand("copy");
-            alert("SKU List copied to clipboard!");
+            alert(`${id === 'euList' ? 'EU' : 'US'} list copied to clipboard!`);
         }
     </script>
 </body>

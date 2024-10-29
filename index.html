@@ -3,46 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Copy SKU Lists</title>
+    <title>Nexa Clipboard</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .container { max-width: 500px; margin: auto; }
-        .box { margin-bottom: 20px; }
-        textarea { width: 100%; height: 100px; font-size: 1em; }
-        button { width: 100%; padding: 10px; font-size: 1em; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
-        button:hover { background-color: #45a049; }
+        /* Imposta il background sfumato */
+        body {
+            background: linear-gradient(to bottom, #1a3b5d, #0b2436);
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Stile del contenitore principale */
+        .container {
+            text-align: center;
+        }
+
+        /* Stile del titolo */
+        h1 {
+            color: white;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        /* Stile del box di testo */
+        textarea {
+            width: 300px;
+            height: 100px;
+            padding: 10px;
+            font-size: 1em;
+            color: black;
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+            resize: none;
+            margin-bottom: 10px;
+        }
+
+        /* Stile del pulsante */
+        button {
+            background-color: #e0e0e0;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        /* Colore al passaggio sul pulsante */
+        button:hover {
+            background-color: #c8c8c8;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Copy SKU Lists</h2>
-        
-        <div class="box">
-            <label for="eu-list">EU SKU List:</label>
-            <textarea id="eu-list" readonly></textarea>
-            <button onclick="copyText('eu-list')">Copy EU List</button>
-        </div>
-
-        <div class="box">
-            <label for="us-list">US SKU List:</label>
-            <textarea id="us-list" readonly></textarea>
-            <button onclick="copyText('us-list')">Copy US List</button>
-        </div>
+        <h1>Nexa Clipboard</h1>
+        <textarea id="skuList" readonly>Inserisci qui la lista SKU da copiare</textarea>
+        <br>
+        <button onclick="copyToClipboard()">Copy</button>
     </div>
 
     <script>
-        // Funzione per copiare il testo
-        function copyText(elementId) {
-            var text = document.getElementById(elementId);
-            text.select();
+        function copyToClipboard() {
+            const textarea = document.getElementById("skuList");
+            textarea.select();
             document.execCommand("copy");
-            alert("List copied to clipboard!");
+            alert("SKU List copied to clipboard!");
         }
-
-        // Popola i campi con i parametri dell'URL
-        const urlParams = new URLSearchParams(window.location.search);
-        document.getElementById('eu-list').value = urlParams.get('eu') || "";
-        document.getElementById('us-list').value = urlParams.get('us') || "";
     </script>
 </body>
 </html>

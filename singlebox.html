@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single List View</title>
+    <style>
+        /* Imposta il background con una sfumatura blu */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(to bottom, #3a6073, #16222a);
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        /* Stile del contenitore principale */
+        .container {
+            text-align: center;
+            background-color: #0a0e14;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+        /* Titolo */
+        h1 {
+            margin-top: 0;
+            font-size: 2em;
+            font-weight: bold;
+            color: white;
+        }
+        /* Area di testo */
+        textarea {
+            width: 300px;
+            height: 200px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            resize: none;
+            font-size: 1em;
+            background-color: white;
+            color: black;
+        }
+        /* Bottone Copy */
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* Cambia colore del bottone al passaggio del mouse */
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SKU List</h1>
+        <textarea id="listBox" readonly>List loading...</textarea>
+        <br>
+        <button onclick="copyText()">Copy List</button>
+    </div>
+
+    <script>
+        function copyText() {
+            const textArea = document.getElementById("listBox");
+            textArea.select();
+            document.execCommand("copy");
+        }
+
+        // Funzione per ottenere i parametri URL
+        function getUrlParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param) || "";
+        }
+
+        // Popola il box con i dati dall'URL
+        document.getElementById("listBox").value = decodeURIComponent(getUrlParam("list"));
+    </script>
+</body>
+</html>
